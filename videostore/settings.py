@@ -16,7 +16,6 @@ import environ
 env = environ.Env()
 # Build paths inside the project like this: BASE_DIR / "subdir".
 BASE_DIR = Path(__file__).resolve().parent.parent
-print("BASE_DIR", BASE_DIR)
 environ.Env.read_env(BASE_DIR / ".env")
 environ.Env.read_env()
 
@@ -94,7 +93,7 @@ DATABASES = {
         "HOST": env("POSTGRES_HOST"),
         "PORT": env("PG_PORT"),
         "TEST": {
-            "NAME": "test-videostore",
+            "NAME": "videostore",
         },
     },
     "test": {
@@ -158,12 +157,11 @@ USE_TZ = True
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": f"{os.environ.get("REDIS_URL")}/1",
+        "LOCATION": "redis://redis:6379/1",
         "OPTIONS": {
-            "PASSWORD": os.environ.get("REDIS_PW"),
             "CLIENT_CLASS": "django_redis.client.DefaultClient"
         },
-        "KEY_PREFIX": "videostore"
+        "KEY_PREFIX": "video_store"
     }
 }
 
@@ -186,7 +184,8 @@ EMAIL_HOST_USER = os.environ.get("EMAIL_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_PASSWORD")
 EMAIL_HOST = os.environ.get("EMAIL_HOST")
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIl_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")

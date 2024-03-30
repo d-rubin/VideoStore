@@ -46,11 +46,12 @@ class RegisterView(APIView):
                 "Registered",
                 f"""You successfully registered to Videoflix! 
                 Please confirm your email by clicking on this link\n{activation_url}""",
-                "videoflix@daniel-rubin.de",
+                "videostore@daniel-rubin.de",
                 [email],
             )
             return Response({"status": 201, "message": "User registered successfully"}, status=HTTP_201_CREATED)
         except Exception:
+            print(Exception)
             return Response({"status": 400, "message": "Bad request"}, status=HTTP_400_BAD_REQUEST)
 
 
