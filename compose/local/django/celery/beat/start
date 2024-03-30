@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -o errexit
+set -o nounset
+
+# Todo: remove info-logs
+celery -A videostore beat -l INFO
