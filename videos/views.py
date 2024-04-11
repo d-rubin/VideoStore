@@ -29,12 +29,11 @@ class UploadView(APIView):
         Video.objects.create(title=title, description=description)
 
         # Save the original file locally
-        local_file_path = f"{title}.mp4"
-        with open(local_file_path, "wb+") as destination:
+        with open("original.mp4", "wb+") as destination:
             for chunk in file.chunks():
                 destination.write(chunk)
 
-        convert_video(local_file_path, title)
+        convert_video(title)
         return Response({
             "status": 201,
             "message": "Video uploaded and converted successfully",
