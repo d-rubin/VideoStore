@@ -1,7 +1,6 @@
 import os
 
 from boto3.session import Session
-from django.core.files import File
 
 
 def upload_video(video: str):
@@ -14,4 +13,3 @@ def upload_video(video: str):
     s3 = session.resource("s3")
     s3.Bucket(os.environ.get("AWS_STORAGE_BUCKET_NAME")).upload_file(Filename=video,
                                                                      Key=video)
-    

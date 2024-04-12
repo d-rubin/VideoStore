@@ -25,6 +25,7 @@ def convert_video(title: str):
 
         # Delete the local converted video file
         os.remove(converted_video_name)
+        os.remove(f"{title}_{res}p*.ts")
 
     # Delete the local .mp4 video file
     os.remove("original.mp4")
