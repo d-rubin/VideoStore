@@ -23,9 +23,9 @@ def convert_video(title: str):
         if os.path.exists(converted_video_name):
             upload_video(converted_video_name)
 
-        # Delete the local converted video file
+        # Delete the local converted video files
         os.remove(converted_video_name)
-        os.remove(f"{title}_{res}p*.ts")
+        os.remove(f"{title}_{res}p0.ts")
 
     # Delete the local .mp4 video file
     os.remove("original.mp4")
