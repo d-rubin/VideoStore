@@ -22,11 +22,12 @@ class UploadView(APIView):
         file = request.FILES.get("file")
         title: str = request.POST.get("title")
         description: str = request.POST.get("description")
+        thumbnail = request.FILES.get("thumbnail")
 
-        if (file is None) or (title is None) or (description is None):
+        if (file is None) or (title is None) or (description is None) or (thumbnail is None):
             return Response({"status": 400, "message": "Bad request", "data": None}, status=HTTP_400_BAD_REQUEST)
 
-        Video.objects.create(title=title, description=description)
+        Video.objects.create(title=title, description=description, thumbnail=thumbnail)
 
         # Save the original file locally
         with open("original.mp4", "wb+") as destination:

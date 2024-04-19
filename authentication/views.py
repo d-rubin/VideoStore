@@ -1,4 +1,8 @@
+import os
 import re
+from pathlib import Path
+
+import environ
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -12,7 +16,11 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 
-
+env = environ.Env()
+# Build paths inside the project like this: BASE_DIR / "subdir".
+BASE_DIR = Path(__file__).resolve().parent.parent
+environ.Env.read_env(BASE_DIR / ".env")
+environ.Env.read_env()
 class RegisterView(APIView):
     @staticmethod
     def post(request):
@@ -40,7 +48,8 @@ class RegisterView(APIView):
             token = default_token_generator.make_token(user)
             uid = urlsafe_base64_encode(force_bytes(user.pk))
             activation_link = reverse("verify-email", kwargs={"uidb64": uid, "token": token})
-            activation_url = request.build_absolute_uri(activation_link)
+            domain = os.environ.get("DOMAIN")
+            activation_url = f"{domain}{activation_link}"
             user.save()
             send_mail(
                 "Registered",
