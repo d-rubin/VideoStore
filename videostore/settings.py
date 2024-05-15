@@ -27,10 +27,10 @@ environ.Env.read_env()
 SECRET_KEY = os.environ.get("SECRET_KEY") or "98e383483493047oasdj8230923jfjc90hewfq83fhoq39hg3r3"
 
 # SECURITY WARNING: don"t run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
-CORS_ALLOWED_ORIGINS = ["http://localhost:3000"]
+ALLOWED_HOSTS = ["videostore.daniel-rubin.de", "videostore-frontend.vercel.app"]
+CORS_ALLOWED_ORIGINS = ["https://videostore-frontend.vercel.app", "https://videostore.daniel-rubin.de"]
 
 # Application definition
 
