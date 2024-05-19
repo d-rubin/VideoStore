@@ -17,6 +17,15 @@ def convert_video(title: str, description: str):
     :param description: The description of the video
     """
     resolutions = ["360", "420", "720", "1080"]
+    thumbnail_name = f"{title}_thumbnail.jpg"
+    thumbnail_command = f"""ffmpeg -y -i original.mp4 -vf "select='eq(n\,10)'" -vframes 1 {thumbnail_name}"""
+
+    subprocess.call(thumbnail_command, shell=True)
+
+    print(f"Thumbnail created: {os.path.exists(thumbnail_name)}")  # Debug output
+    with open(thumbnail_name, 'rb') as thumbnail_file:
+        Video.objects.create(title=title, description=description, thumbnail=File(thumbnail_file))
+
     for res in resolutions:
         converted_video_name = f"{title}_{res}p.m3u8"
 
@@ -32,13 +41,6 @@ def convert_video(title: str, description: str):
         for video_chunk in video_chunk_files:
             upload_video(video_chunk)
             os.remove(video_chunk)
-
-    thumbnail_name = f"{title}_thumbnail.jpg"
-    thumbnail_command = f"""ffmpeg -y -i original.mp4 -vf "select='eq(n\,10)'" -vframes 1 {thumbnail_name}"""
-    subprocess.call(thumbnail_command, shell=True)
-    print(f"Thumbnail created: {os.path.exists(thumbnail_name)}")  # Debug output
-    with open(thumbnail_name, 'rb') as thumbnail_file:
-        Video.objects.create(title=title, description=description, thumbnail=File(thumbnail_file))
 
     os.remove(thumbnail_name)
     os.remove("original.mp4")
