@@ -16,7 +16,7 @@ def convert_video(title: str, description: str):
     :param title: The title of the video
     :param description: The description of the video
     """
-    resolutions = ["360", "420", "720", "1080"]
+    resolutions = ["360", "480", "720", "1080"]
     thumbnail_name = f"{title}_thumbnail.jpg"
     thumbnail_command = f"""ffmpeg -y -i original.mp4 -vf "select='eq(n\,10)'" -vframes 1 {thumbnail_name}"""
 
