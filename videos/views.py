@@ -84,7 +84,7 @@ class SegmentDownloadView(APIView):
     """
     IMPORTANT: The segment_name needs to be in the format {title}_{resolution}p{segment_number}.ts
     """
-    @cache_page(None)
+    @method_decorator(cache_page(None))
     def get(self, request, *args, **kwargs):
         segment_name = kwargs["segment_name"]
 
@@ -120,7 +120,7 @@ class SegmentDownloadView(APIView):
 class VideoListView(ListAPIView):
     permission_classes = [IsAuthenticated]
 
-    @cache_page(None)
+    @method_decorator(cache_page(None))
     def get(self, request, *args, **kwargs):
         video_list = Video.objects.all()
         serializer = VideoSerializer(video_list, many=True)
