@@ -1,5 +1,6 @@
 import os
 from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
@@ -83,8 +84,8 @@ class SegmentDownloadView(APIView):
     """
     IMPORTANT: The segment_name needs to be in the format {title}_{resolution}p{segment_number}.ts
     """
-    @staticmethod
-    def get(request, *args, **kwargs):
+    @cache_page(None)
+    def get(self, request, *args, **kwargs):
         segment_name = kwargs["segment_name"]
 
         if segment_name is None:
@@ -119,6 +120,7 @@ class SegmentDownloadView(APIView):
 class VideoListView(ListAPIView):
     permission_classes = [IsAuthenticated]
 
+    @cache_page(None)
     def get(self, request, *args, **kwargs):
         video_list = Video.objects.all()
         serializer = VideoSerializer(video_list, many=True)

@@ -1,6 +1,7 @@
 import glob
 
 from celery import shared_task
+from django.core.cache import cache
 from django.core.files import File
 import os
 import subprocess
@@ -44,3 +45,4 @@ def convert_video(title: str, description: str):
 
     os.remove(thumbnail_name)
     os.remove("original.mp4")
+    cache.clear()
