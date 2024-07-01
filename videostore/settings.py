@@ -29,7 +29,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY") or "98e383483493047oasdj8230923jfjc90h
 # SECURITY WARNING: don"t run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["49.13.236.3"]
+ALLOWED_HOSTS = ["49.13.236.3", "127.0.0.1", "localhost"]
 CORS_ALLOWED_ORIGINS = ["https://videostore-frontend.vercel.app", "https://videostore.daniel-rubin.de"]
 
 # Application definition
