@@ -30,7 +30,8 @@ SECRET_KEY = os.environ.get("SECRET_KEY") or "98e383483493047oasdj8230923jfjc90h
 DEBUG = True
 
 ALLOWED_HOSTS = ["49.13.236.3", "127.0.0.1", "localhost"]
-CORS_ALLOWED_ORIGINS = ["https://videostore-frontend.vercel.app", "https://videostore.daniel-rubin.de"]
+CORS_ALLOWED_ORIGINS = ["https://videostore-frontend.vercel.app", "https://videostore.daniel-rubin.de",
+                        "http://localhost:3000"]
 
 # Application definition
 
@@ -53,9 +54,9 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",    # Maybe remove this
     # "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
