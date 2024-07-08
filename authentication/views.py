@@ -21,6 +21,8 @@ env = environ.Env()
 BASE_DIR = Path(__file__).resolve().parent.parent
 environ.Env.read_env(BASE_DIR / ".env")
 environ.Env.read_env()
+
+
 class RegisterView(APIView):
     @staticmethod
     def post(request):
@@ -49,11 +51,11 @@ class RegisterView(APIView):
             uid = urlsafe_base64_encode(force_bytes(user.pk))
             activation_link = reverse("verify-email", kwargs={"uidb64": uid, "token": token})
             domain = os.environ.get("DOMAIN")
-            activation_url = f"{domain}{activation_link}"
+            activation_url = f"{domain}/api/verify/{uid}/{token}/"
             user.save()
             send_mail(
                 "Registered",
-                f"""You successfully registered to Videoflix! 
+                f"""You successfully registered to Videoflix!\n
                 Please confirm your email by clicking on this link\n{activation_url}""",
                 "videostore@daniel-rubin.de",
                 [email],
