@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "videos",
     "django_rest_passwordreset",
     "django_celery_results",
+    "django_extensions",
 ]
 
 MIDDLEWARE = [
