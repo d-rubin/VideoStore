@@ -26,12 +26,16 @@ environ.Env.read_env()
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY") or "98e383483493047oasdj8230923jfjc90hewfq83fhoq39hg3r3"
 
-# SECURITY WARNING: don"t run with debug turned on in production!
-DEBUG = False
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = os.environ.get("DEBUG", False)
 
-ALLOWED_HOSTS = ["*", "49.13.236.3", "127.0.0.1", "localhost"]
-CORS_ALLOWED_ORIGINS = ["https://videostore-frontend.vercel.app", "https://videostore.daniel-rubin.de",
-                        "http://localhost:3000"]
+ALLOWED_HOSTS = ["94.130.25.91", "0.0.0.0", "localhost", "127.0.0.1"]
+CORS_ALLOWED_ORIGINS = [
+    "https://videostore-frontend.vercel.app",
+    "https://videostore.daniel-rubin.de",
+    "https://94.130.25.91",
+    "http://localhost:3000"
+]
 
 # Application definition
 
@@ -151,7 +155,7 @@ USE_TZ = True
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://redis:6379/1",
+        "LOCATION": "redis://redis:6379",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient"
         },
@@ -198,13 +202,3 @@ CELERY_TIMEZONE = "Europe/Berlin"
 CELERY_RESULT_BACKEND = "django-db"
 CELERY_CACHE_BACKEND = "django-cache"
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
-
-
-# HOST_SCHEME                     = "http://"
-# SECURE_PROXY_SSL_HEADER         = None
-# SECURE_SSL_REDIRECT             = False
-# SESSION_COOKIE_SECURE           = False
-# CSRF_COOKIE_SECURE              = False
-# SECURE_HSTS_SECONDS             = None
-# SECURE_HSTS_INCLUDE_SUBDOMAINS  = False
-# SECURE_FRAME_DENY               = False

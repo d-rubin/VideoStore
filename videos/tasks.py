@@ -19,11 +19,10 @@ def convert_video(title: str, description: str):
     """
     resolutions = ["360", "480", "720", "1080"]
     thumbnail_name = f"{title}_thumbnail.jpg"
-    thumbnail_command = f"""ffmpeg -y -i original.mp4 -vf "select='eq(n\,10)'" -vframes 1 {thumbnail_name}"""
+    thumbnail_command = f"""ffmpeg -y -i original.mp4 -vf "select='eq(n\\,10)'" -vframes 1 {thumbnail_name}"""
 
     subprocess.call(thumbnail_command, shell=True)
 
-    print(f"Thumbnail created: {os.path.exists(thumbnail_name)}")  # Debug output
     with open(thumbnail_name, 'rb') as thumbnail_file:
         Video.objects.create(title=title, description=description, thumbnail=File(thumbnail_file))
 
