@@ -1,15 +1,24 @@
 import os
-
 from boto3.session import Session
 
 
 def upload_video(video: str):
     """
-    Connect to S3 and upload the video
-    :param video The video file to upload
+    Connect to MinIO and upload the video.
+    :param video: The video file to upload.
     """
-    session = Session(aws_access_key_id=os.environ.get("AWS_ACCESS_KEY_ID"),
-                      aws_secret_access_key=os.environ.get("AWS_SECRET_ACCESS_KEY"))
-    s3 = session.resource("s3")
-    s3.Bucket(os.environ.get("AWS_STORAGE_BUCKET_NAME")).upload_file(Filename=video,
-                                                                     Key=video)
+    session = Session(
+        aws_access_key_id=os.environ.get("MINIO_ACCESS_KEY"),
+        aws_secret_access_key=os.environ.get("MINIO_SECRET_KEY"),
+    )
+    s3 = session.resource(
+        "s3",
+        endpoint_url=os.environ.get("MINIO_URL")
+    )
+    bucket_name = os.environ.get("videostore")
+
+    try:
+        s3.Bucket(bucket_name).upload_file(Filename=video, Key=os.path.basename(video))
+        print(f"Successfully uploaded {video} to {bucket_name}.")
+    except Exception as e:
+        print(f"Failed to upload {video}: {e}")
