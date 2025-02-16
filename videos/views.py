@@ -46,7 +46,7 @@ class UploadView(APIView):
             for chunk in file.chunks():
                 destination.write(chunk)
 
-        convert_video(title, description)
+        convert_video.delay(title, description)
 
         return Response({
             "status": 201,
