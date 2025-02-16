@@ -153,11 +153,10 @@ USE_I18N = True
 
 USE_TZ = True
 
-REDIS_URL = f'redis://redis'
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": f'${REDIS_URL}:6379',
+        "LOCATION": f'{os.environ.get("REDIS_URL")}:6379/1',
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient"
         },
@@ -183,17 +182,38 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-# AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
-# AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
-# AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
-# AWS_S3_SIGNATURE_NAME = "s3v4",
-# AWS_S3_REGION_NAME = os.environ.get("AWS_S3_REGION_NAME")
-# AWS_S3_FILE_OVERWRITE = False
-# AWS_DEFAULT_ACL = None
-# AWS_S3_VERITY = True
+# DEBUG CONFIG
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'console': {
+#             'class': 'logging.StreamHandler',
+#         },
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['console'],
+#             'level': 'DEBUG',
+#         },
+#         'django.db.backends': {
+#             'handlers': ['console'],
+#             'level': 'DEBUG',
+#         },
+#     },
+# }
+
+
+AWS_ACCESS_KEY_ID = os.environ.get("MINIO_ACCESS_KEY")
+AWS_SECRET_ACCESS_KEY = os.environ.get("MINIO_SECRET_KEY")
+AWS_STORAGE_BUCKET_NAME = os.environ.get("BUCKET_NAME")
+AWS_S3_SIGNATURE_NAME = "s3v4",
+AWS_S3_REGION_NAME = None
+AWS_QUERYSTRING_AUTH = False
+AWS_S3_ENDPOINT_URL = f'https://{os.environ.get("MINIO_URL")}'
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
-CELERY_BROKER_URL = f'${REDIS_URL}:6379/0'
+CELERY_BROKER_URL = f'{os.environ.get("REDIS_URL")}:6379/0'
 CELERY_ACCEPT_CONTENT = ["application/json"]
 CELERY_RESULT_SERIALIZER = "json"
 CELERY_TASK_SERIALIZER = "json"

@@ -13,9 +13,9 @@ def upload_video(video: str):
     )
     s3 = session.resource(
         "s3",
-        endpoint_url=os.environ.get("MINIO_URL")
+        endpoint_url=f'https://{os.environ.get("MINIO_URL")}'
     )
-    bucket_name = os.environ.get("videostore")
+    bucket_name = os.environ.get("BUCKET_NAME")
 
     try:
         s3.Bucket(bucket_name).upload_file(Filename=video, Key=os.path.basename(video))

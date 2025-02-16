@@ -2,7 +2,7 @@ import glob
 
 from celery import shared_task
 from django.core.cache import cache
-from django.core.files import File
+from django.core.files.base import ContentFile
 import os
 import subprocess
 
@@ -24,7 +24,12 @@ def convert_video(title: str, description: str):
     subprocess.call(thumbnail_command, shell=True)
 
     with open(thumbnail_name, 'rb') as thumbnail_file:
-        Video.objects.create(title=title, description=description, thumbnail=File(thumbnail_file))
+        file_content = thumbnail_file.read()
+        Video.objects.create(
+            title=title,
+            description=description,
+            thumbnail=ContentFile(file_content, name=thumbnail_name)
+        )
 
     for res in resolutions:
         converted_video_name = f"{title}_{res}p.m3u8"

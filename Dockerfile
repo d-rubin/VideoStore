@@ -30,11 +30,11 @@ CMD python ./manage.py collectstatic --noinput && \
 #ENV PYTHONDONTWRITEBYTECODE 1
 #
 #RUN apk update && \
- #    apk add --no-cache \
- #    build-base \
- #    ffmpeg \
- #    libpq-dev \
- #    gettext
+#     apk add --no-cache \
+#     build-base \
+#     ffmpeg \
+#     libpq-dev \
+#     gettext
 #
 #WORKDIR /app
 #

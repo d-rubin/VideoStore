@@ -46,7 +46,7 @@ class UploadView(APIView):
             for chunk in file.chunks():
                 destination.write(chunk)
 
-        convert_video.delay(title, description)
+        convert_video(title, description)
 
         return Response({
             "status": 201,
@@ -74,7 +74,7 @@ class DownloadView(APIView):
             )
             s3 = session.client(
                 "s3",
-                endpoint_url=os.environ.get("MINIO_ENDPOINT_URL")  # Example: "http://s3.daniel-rubin.de"
+                endpoint_url=f'https://{os.environ.get("MINIO_URL")}'  # Example: "http://s3.daniel-rubin.de"
             )
         except Exception as e:
             return Response(
@@ -83,10 +83,10 @@ class DownloadView(APIView):
             )
 
         # Fetch the video file from MinIO
-        bucket_name = os.environ.get("MINIO_BUCKET_NAME")
+        bucket_name = os.environ.get("BUCKET_NAME")
         if not bucket_name:
             return Response(
-                {"status": 500, "message": "MINIO_BUCKET_NAME environment variable is not set", "data": None},
+                {"status": 500, "message": "BUCKET_NAME environment variable is not set", "data": None},
                 status=HTTP_500_INTERNAL_SERVER_ERROR
             )
 
